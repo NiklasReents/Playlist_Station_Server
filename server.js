@@ -4,11 +4,15 @@ const mongoose = require("mongoose");
 
 require("dotenv").config();
 
+const registerRouter = require("./routes/registerroute.js");
+
 const app = express();
 const uri = process.env.ATLAS_URI;
 const port = process.env.PORT;
 
 app.use(cors({ origin: "*" }));
+app.use(express.json());
+app.use("/register", registerRouter);
 
 mongoose.connect(uri);
 mongoose.connection.once("open", () => {
@@ -16,5 +20,5 @@ mongoose.connection.once("open", () => {
 });
 
 app
-  .get("/", (req, res) => res.status(200).send("Online"))
+  .get("/", (req, res) => res.send("Online"))
   .listen(port, () => console.log(`Server running on port ${port}!`));
