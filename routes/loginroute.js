@@ -6,6 +6,7 @@ const User = require("../models/usermodel.js");
 router.post("/getuser", async (req, res) => {
   const loginName = req.body.loginName;
   const userFound = await User.findOne({ username: loginName });
+
   if (userFound && userFound.username !== "User") {
     res.send({ username: userFound.username, email: userFound.email });
   } else res.send("No user found!");
