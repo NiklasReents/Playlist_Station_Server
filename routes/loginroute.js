@@ -27,11 +27,11 @@ router.post("/", async (req, res) => {
     const token = jwt.sign({ loginName: loginName }, process.env.JWTKEY, {
       expiresIn: "1 day",
     });
-    res.send([
-      token,
-      loginName,
-      "Successfully logged in as " + loginName + "!",
-    ]);
+    res.send({
+      token: token,
+      loginName: loginName,
+      message: "Successfully logged in as " + loginName + "!",
+    });
   }
 });
 
