@@ -51,4 +51,11 @@ router.post("/", async (req, res) => {
   });
 });
 
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  await Token.findOne({ token: id })
+    .then((token) => res.send(token))
+    .catch((err) => res.send(err));
+});
+
 module.exports = router;
