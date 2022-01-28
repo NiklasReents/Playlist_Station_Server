@@ -36,4 +36,26 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.put("/passwordreset", async (req, res) => {
+  const password = req.body.password;
+  const passwordConfirmed = req.body.passwordConfirmed;
+  const email = req.body.email;
+
+  const userFound = await User.findOne({ password: password });
+
+  if (password !== passwordConfirmed) res.send("Passwords do not match!");
+  else if (password.length < 8 || passwordConfirmed.length < 8) {
+    res.send("Passwords need to contain at least 8 characters!");
+  } else if (userFound) res.send("Password already exists!");
+  else {
+    await User.findOneAndUpdate(
+      { email: email },
+      { password: password },
+      { new: true }
+    )
+      .then((user) => res.send("Password changed for " + user.email + "!"))
+      .catch((err) => res.send(err));
+  }
+});
+
 module.exports = router;
