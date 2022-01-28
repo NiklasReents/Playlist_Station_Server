@@ -58,4 +58,11 @@ router.get("/:id", async (req, res) => {
     .catch((err) => res.send(err));
 });
 
+router.delete("/delete/:id", async (req, res) => {
+  const { id } = req.params;
+  await Token.findOneAndDelete({ token: id })
+    .then((token) => res.send("Deleted: " + token.token))
+    .catch((err) => res.send(err));
+});
+
 module.exports = router;
