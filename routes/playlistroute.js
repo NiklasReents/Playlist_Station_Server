@@ -1,10 +1,21 @@
+const jwt = require("jsonwebtoken");
 const router = require("express").Router();
 const formidable = require("formidable");
 const path = require("path");
 
 const Playlist = require("../models/playlistmodel.js");
 
-router.post("/", (req, res) => {
+function userAuth(req, res, next) {
+  const { authorization } = req.headers;
+  if (authorization) {
+    jwt.verify(authorization, process.env.JWTKEY, (err, user) => {
+      req.user = !user ? "User" : user.loginName;
+      next && next();
+    });
+  } else res.sendStatus(401);
+}
+
+router.post("/", userAuth, (req, res) => {
   const form = new formidable.IncomingForm({
     uploadDir: path.join(process.cwd(), "public/files"),
     type: "multipart",
