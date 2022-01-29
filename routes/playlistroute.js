@@ -22,7 +22,9 @@ router.post("/", userAuth, (req, res) => {
   });
   form.parse(req, async (err, fields, files) => {
     const playlistname = fields.playlistname;
-    const imagefile = files.imagefile.filepath;
+    const imagefile = files.imagefile
+      ? files.imagefile.filepath
+      : fields.imagefile;
     const songfile = files.songfile.filepath;
     const song = fields.song;
     const artist = fields.artist;
