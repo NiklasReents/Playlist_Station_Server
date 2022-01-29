@@ -22,8 +22,8 @@ router.post("/", userAuth, (req, res) => {
   });
   form.parse(req, async (err, fields, files) => {
     const playlistname = fields.playlistname;
-    const imagefile = files.imagefile.path;
-    const songfile = files.songfile.path;
+    const imagefile = files.imagefile.filepath;
+    const songfile = files.songfile.filepath;
     const song = fields.song;
     const artist = fields.artist;
     const genre = fields.genre;
@@ -58,12 +58,16 @@ router.post("/", userAuth, (req, res) => {
       }
       if (!listFound) await Playlist.create(newList);
     } catch (err) {
-      throw err;
+      console.error(err);
     }
     if (err) res.send(err);
   });
   form.on("fileBegin", (name, file) => {
-    file.path = path.join(process.cwd(), "/public/files/", file.name);
+    file.filepath = path.join(
+      process.cwd(),
+      "/public/files/",
+      file.originalFilename
+    );
   });
   res.send("Song uploaded!");
 });
