@@ -90,4 +90,8 @@ function streamBinaryFile(req, res, type) {
   readStream.on("error", (err) => res.send(err));
 }
 
+router.get("/images/:id", async (req, res) => {
+  streamBinaryFile(req, res, "image");
+});
+
 module.exports = router;
