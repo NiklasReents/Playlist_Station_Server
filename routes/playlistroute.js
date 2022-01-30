@@ -94,4 +94,8 @@ router.get("/images/:id", async (req, res) => {
   streamBinaryFile(req, res, "image");
 });
 
+router.get("/songs/:id", async (req, res) => {
+  streamBinaryFile(req, res, "audio");
+});
+
 module.exports = router;
