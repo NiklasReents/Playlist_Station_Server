@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const router = require("express").Router();
 const formidable = require("formidable");
 const path = require("path");
+const fs = require("fs");
 
 const Playlist = require("../models/playlistmodel.js");
 
