@@ -80,4 +80,14 @@ router.get("/", userAuth, async (req, res) => {
     .catch((err) => res.send(err));
 });
 
+function streamBinaryFile(req, res, type) {
+  const { id } = req.params;
+  const readStream = fs.createReadStream(
+    path.join(process.cwd(), "public/files", id)
+  );
+  res.setHeader("content-type", type + "/" + id.slice(id.lastIndexOf(".") + 1));
+  readStream.on("open", () => readStream.pipe(res));
+  readStream.on("error", (err) => res.send(err));
+}
+
 module.exports = router;
