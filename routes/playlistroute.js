@@ -74,4 +74,10 @@ router.post("/", userAuth, (req, res) => {
   res.send("Song uploaded!");
 });
 
+router.get("/", userAuth, async (req, res) => {
+  await Playlist.find({ username: !req.user ? "User" : req.user })
+    .then((playlists) => res.send(playlists))
+    .catch((err) => res.send(err));
+});
+
 module.exports = router;
